@@ -1,0 +1,22 @@
+{
+    "name": "e-commerse-multi-vendor",
+    "version": "1.0.0",
+    "description": "multi vendor ecommerse with react",
+    "main": "backend/server.js",
+    "scripts": {
+        "dev": "nodemon backend/server.js",
+        "start": "node backend/server.js"
+    },
+    "author": "pyheng",
+    "license": "ISC",
+    "dependencies": {
+        "bcrypt": "^5.1.0",
+        "cookie-parser": "^1.4.6",
+        "dotenv": "^16.0.3",
+        "express": "^4.18.2",
+        "jsonwebtoken": "^9.0.0",
+        "mongoose": "^7.2.1",
+        "nodemailer": "^6.9.2",
+        "nodemon": "^2.0.22"
+    }
+}
