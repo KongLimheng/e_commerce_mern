@@ -8,7 +8,6 @@ const connectDB = async () => {
             useUnifiedTopology: true,
         })
         .then((data) => {
-            console.log(data)
             console.log(
                 `mongodb connected with server: ${data.connection.host}`
             )

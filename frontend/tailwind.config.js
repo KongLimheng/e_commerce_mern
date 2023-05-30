@@ -20,5 +20,6 @@ module.exports = {
     daisyui: {
         // themes: ['dark', 'light'],
         themes: false,
+        prefix: 'dai-',
     },
 }

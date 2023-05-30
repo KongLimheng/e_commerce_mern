@@ -1,7 +1,12 @@
+import axios from 'axios'
 import clsx from 'clsx'
 import { useState } from 'react'
+import toast from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
+import { server } from '../../server.js'
 import styles from '../../styles/styles.js'
 import InputField from '../InputField'
+import Spinner from '../Spinner'
 
 const Login = () => {
     const [email, setEmail] = useState('')
@@ -9,6 +14,8 @@ const Login = () => {
     const [fullName, setFullName] = useState('')
     const [isRegister, setIsRegister] = useState(false)
     const [avarta, setAvarta] = useState(null)
+    const [isLoading, setIsLoading] = useState(false)
+    const navigate = useNavigate()
 
     /**
      *
@@ -23,6 +30,43 @@ const Login = () => {
         }
     }
 
+    /**
+     *
+     * @param {SubmitEvent} e
+     */
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+
+        const config = { headers: { 'Content-Type': 'multipart/form-data' } }
+        const formData = new FormData()
+        if (isRegister) {
+            setIsLoading(true)
+            formData.append('file', avarta)
+            formData.append('name', fullName)
+            formData.append('email', email)
+            formData.append('password', password)
+
+            axios
+                .post(`${server}/user/create-user`, formData, config)
+                .then(({ data }) => {
+                    console.log(data)
+                    if (data.success) {
+                        setIsLoading(false)
+                        // navigate('/')
+
+                        toast.success('sign up successful')
+                        toast.success(data.message, { duration: 1 })
+                    }
+                })
+                .catch((err) => {
+                    setIsLoading(false)
+                    toast.error(err.message)
+                    console.log(err, 'err from post')
+                })
+        } else {
+        }
+    }
+
     return (
         <div className="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-md px-8">
@@ -30,10 +74,7 @@ const Login = () => {
                     {isRegister ? 'Sign Up' : 'Login'} to your account
                 </h2>
                 <div className="py-8 shadow-xl sm:rounded-lg px-8 mt-6">
-                    <form
-                        className="space-y-6"
-                        onSubmit={(e) => e.preventDefault()}
-                    >
+                    <form className="space-y-6" onSubmit={handleSubmit}>
                         {isRegister && (
                             <InputField
                                 id="fullname"
@@ -164,12 +205,14 @@ const Login = () => {
 
                         <div className={clsx(`justify-end`, styles.noramlFlex)}>
                             <button
+                                disabled={isLoading && 'disabled'}
                                 className="group relative w-full h-[40px] flex justify-center py-2
                                 bg-blue-600 px-4 border border-transparent text-sm font-medium  text-white
-                                rounded-md hover:bg-blue-700 dai-btn"
+                                rounded-md hover:bg-blue-700 dai-btn disabled:bg-gray-300 disabled:cursor-not-allowed"
                                 type="submit"
                             >
-                                Sign In
+                                {isRegister ? 'Sign Up' : 'Sign In'}
+                                {isLoading && <Spinner />}
                             </button>
                         </div>
 

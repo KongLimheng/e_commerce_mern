@@ -1,14 +1,22 @@
+import { Toaster } from 'react-hot-toast'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
-import { LoginPage } from './Routes'
+import { ActivationPage, LoginPage } from './Routes'
 
 function App() {
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/login" element={<LoginPage />} />
-            </Routes>
-        </BrowserRouter>
+        <>
+            <Toaster />
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route
+                        path="/activation/:activateToken"
+                        element={<ActivationPage />}
+                    />
+                </Routes>
+            </BrowserRouter>
+        </>
     )
 }
 
